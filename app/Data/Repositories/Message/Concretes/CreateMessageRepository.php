@@ -26,7 +26,7 @@ class CreateMessageRepository implements ICreateMessageRepository
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('Erro ao realizar cadastro de message:', ['exception' => $e->getMessage()]);
-			return false;
+			return collect([]);
         }
     }
 }
