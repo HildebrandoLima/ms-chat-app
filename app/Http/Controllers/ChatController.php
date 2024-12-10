@@ -2,36 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\MessageSent;
+use App\Domain\Services\Message\Interfaces\ICreateMessageService;
+use App\Http\Requests\Message\CreateMessageRequest;
 use App\Models\Message;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
 {
+    private ICreateMessageService $createMessageService;
+
+    public function __construct(ICreateMessageService $createMessageService)
+    {
+        $this->createMessageService = $createMessageService;
+    }
+
     public function index(Request $request)
     {
         $messages = Message::where('from', 1)->where('to', $request->to)->get();
         return response()->json($messages);
     }
 
-    public function store(Request $request)
+    public function store(CreateMessageRequest $request)
     {
-        $validated = $request->validate([
-            'from' => 'required|integer',
-            'text' => 'required|string',
-            'to' => 'required|integer',
-        ]);
+        $success = $this->createMessageService->create($request);
 
-        $message = Message::create([
-            'from' => 1,
-            'text' => $validated['text'],
-            'to' => 2,
-        ]);
+        if (is_bool($success)) {
+            if (!$success) {
+                return Controller::error('Erro: Operação falhou.');
+            }
+            return Controller::post($success);
 
-        // Dispara o evento de broadcast
-        broadcast(new MessageSent($validated['from'], $validated['text'], $validated['to']));
-
-        return response()->json(['message' => 'Message sent', 'data' => $message, 'status' => 201]);    // Retorna a mensagem criada
+        } else {
+            if ($success->isEmpty()) {
+                return Controller::error('Erro: O data está vazia.');
+            }
+            return Controller::post($success);
+        }
     }
 
     public function update(Request $request, $id)
