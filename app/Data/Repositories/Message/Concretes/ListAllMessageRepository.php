@@ -11,6 +11,16 @@ class ListAllMessageRepository implements IListAllMessageRepository
 {
     public function listAll(MessageRequest $request): Collection
     {
-        return Message::where('from', 1)->where('to', $request->to)->get();
+        return Message::
+            where(function ($query) use ($request) {
+                $query->where('from', $request->from)
+                    ->where('to', $request->to)
+                    ->orWhere(function ($subQuery) use ($request) {
+                        $subQuery->where('from', $request->to)
+                                ->where('to', $request->from);
+                    });
+            })
+        ->orderBy('created_at', 'asc')
+        ->get();
     }
 }
