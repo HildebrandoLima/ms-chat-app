@@ -10,6 +10,7 @@ class MessageDto
 
     public int $from = 0;
     public string $text = "";
+    public string $status = "";
     public int $to = 0;
 
     public function customizeMapping(array $data): void

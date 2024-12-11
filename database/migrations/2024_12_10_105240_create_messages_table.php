@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id()->autoIncrement();
             $table->string('text')->notnull();
+            $table->enum('status', ['Default', 'Mensagem Apagada']);
             $table->unsignedBigInteger('from')->notnull();
             $table->unsignedBigInteger('to')->notnull();
             $table->foreign('from')->references('id')->on('users')->onDelete('cascade');

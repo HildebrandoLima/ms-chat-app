@@ -5,6 +5,7 @@ namespace App\Data\Repositories\Message\Concretes;
 use App\Data\Repositories\Message\Interfaces\ICreateMessageRepository;
 use App\Http\Requests\Message\CreateMessageRequest;
 use App\Models\Message;
+use App\Support\Enums\StatusMessageEnum;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Collection;
@@ -19,6 +20,7 @@ class CreateMessageRepository implements ICreateMessageRepository
             $message = Message::create([
                 'from' => $request->from,
                 'text' => $request->text,
+                'status' => StatusMessageEnum::DEFAULT,
                 'to' => $request->to,
             ]);
             DB::commit();

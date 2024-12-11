@@ -90,10 +90,18 @@ class ChatController extends Controller
     public function destroy(int $id): Response
     {
         $success = $this->deleteMessageByIdService->deleteById($id);
-        if (!$success) {
-            return $this->responseError('Error ao deletar mensagem.');
+        if (is_bool($success)) {
+            if (!$success) {
+                return $this->responseError('Error ao realizar operação.');
+            }
+            return Controller::delete($success);
+
+        } else {
+            if ($success->isEmpty()) {
+                return $this->getIsNotEmpty();
+            }
+            return Controller::delete($success);
         }
-        return Controller::delete($success);
     }
 
     private function responseError(string $message): Response

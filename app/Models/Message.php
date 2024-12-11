@@ -14,6 +14,7 @@ class Message extends Model
     protected $fillable = [
         'from',
         'text',
+        'status',
         'to'
     ];
 }
