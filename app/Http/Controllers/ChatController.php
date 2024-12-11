@@ -3,59 +3,92 @@
 namespace App\Http\Controllers;
 
 use App\Domain\Services\Message\Interfaces\ICreateMessageService;
+use App\Domain\Services\Message\Interfaces\IDeleteMessageByIdService;
+use App\Domain\Services\Message\Interfaces\IListAllMessageService;
+use App\Domain\Services\Message\Interfaces\IListMessageByIdService;
+use App\Domain\Services\Message\Interfaces\IUpdateMessageService;
 use App\Http\Requests\Message\CreateMessageRequest;
-use App\Models\Message;
-use Illuminate\Http\Request;
+use App\Http\Requests\Message\MessageRequest;
+use App\Http\Requests\Message\UpdateMessageRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class ChatController extends Controller
 {
-    private ICreateMessageService $createMessageService;
+    private ICreateMessageService     $createMessageService;
+    private IDeleteMessageByIdService $deleteMessageByIdService;
+    private IListAllMessageService    $listAllMessageService;
+    private IListMessageByIdService   $listMessageByIdService;
+    private IUpdateMessageService     $updateMessageService;
 
-    public function __construct(ICreateMessageService $createMessageService)
+    public function __construct
+    (
+        ICreateMessageService     $createMessageService,
+        IDeleteMessageByIdService $deleteMessageByIdService,
+        IListAllMessageService    $listAllMessageService,
+        IListMessageByIdService   $listMessageByIdService,
+        IUpdateMessageService     $updateMessageService
+    )
     {
         $this->createMessageService = $createMessageService;
+        $this->deleteMessageByIdService = $deleteMessageByIdService;
+        $this->listAllMessageService = $listAllMessageService;
+        $this->listMessageByIdService = $listMessageByIdService;
+        $this->updateMessageService = $updateMessageService;
     }
 
-    public function index(Request $request)
+    public function index(MessageRequest $request): Response
     {
-        $messages = Message::where('from', 1)->where('to', $request->to)->get();
-        return response()->json($messages);
+        $success = $this->listAllMessageService->listAll($request);
+        return Controller::get($success);
     }
 
-    public function store(CreateMessageRequest $request)
+    public function show(int $id): Response
+    {
+        $success = $this->listMessageByIdService->listFindById($id);
+        if ($success->isEmpty()) {
+            return Controller::getIsNotEmpty();
+        }
+        return Controller::get($success);
+    }
+
+    public function store(CreateMessageRequest $request): Response
     {
         $success = $this->createMessageService->create($request);
 
         if (is_bool($success)) {
             if (!$success) {
-                return Controller::error('Erro: Operação falhou.');
+                return $this->responseError('Error ao realizar operação.');
             }
             return Controller::post($success);
 
         } else {
             if ($success->isEmpty()) {
-                return Controller::error('Erro: O data está vazia.');
+                return $this->getIsNotEmpty();
             }
             return Controller::post($success);
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateMessageRequest $request): Response
     {
-        $validated = $request->validate([
-            'text' => 'required|string',
-        ]);
-
-        $message = Message::findOrFail($id);
-        $message->text = $validated['text'];
-        $message->save();
-        return response()->json($message);
+        $success = $this->updateMessageService->updateById($request);
+        if (!$success) {
+            return $this->responseError('Error ao alterar mensagem.');
+        }
+        return Controller::post($success);
     }
 
-    public function destroy($id)
+    public function destroy(int $id): Response
     {
-        $message = Message::findOrFail($id);
-        $message->delete();
-        return response()->json(['message' => 'Message deleted successfully']);
+        $success = $this->deleteMessageByIdService->deleteById($id);
+        if (!$success) {
+            return $this->responseError('Error ao deletar mensagem.');
+        }
+        return Controller::delete($success);
+    }
+
+    private function responseError(string $message): Response
+    {
+        return Controller::error($message);
     }
 }

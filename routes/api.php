@@ -23,7 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //  Messages
 Route::prefix('messages')->group(function () {
     Route::get('', [ChatController::class, 'index']);
+    Route::get('/{id}', [ChatController::class, 'show']);
     Route::post('', [ChatController::class, 'store']);
-    Route::put('/{id}', [ChatController::class, 'update']);
+    Route::put('', [ChatController::class, 'update']);
     Route::delete('/{id}', [ChatController::class, 'destroy']);
 });

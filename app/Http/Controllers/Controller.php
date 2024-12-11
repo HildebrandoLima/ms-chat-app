@@ -50,6 +50,16 @@ class Controller extends BaseController
         ], Response::HTTP_OK);
     }
 
+    public function getIsNotEmpty(): Response
+    {
+        return response()->json([
+            "message" => "Error ao buscar listagem.",
+            "data" => [],
+            "status" => Response::HTTP_NOT_FOUND,
+            "details" => "",
+        ], Response::HTTP_NOT_FOUND);
+    }
+
     public function error(string $details): Response
     {
         throw new HttpResponseException(HttpInternalServerError::getResponse($details));
