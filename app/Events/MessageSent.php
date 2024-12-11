@@ -11,32 +11,36 @@ class MessageSent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $from;
-    public $text;
-    public $to;
+    public int $from;
+    public string $text;
+    public int $to;
 
-    public function __construct($from, $text, $to)
+    public function __construct(int $from, string $text, int $to)
     {
         $this->from = $from;
         $this->text = $text;
         $this->to = $to;
     }
 
-    public function broadcastOn()
+    public function broadcastOn(): array
     {
-        return new Channel('chat.' . $this->to);
+        return [
+            new Channel('chat.' . $this->from),
+            new Channel('chat.' . $this->to),
+        ];
     }
 
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return 'message';
     }
 
-    public function broadcastWith()
+    public function broadcastWith(): array
     {
         return [
             'from' => $this->from,
             'text' => $this->text,
+            'to' => $this->to,
         ];
     }
 }
