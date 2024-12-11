@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,4 +28,13 @@ Route::prefix('messages')->group(function () {
     Route::post('', [ChatController::class, 'store']);
     Route::put('', [ChatController::class, 'update']);
     Route::delete('/{id}', [ChatController::class, 'destroy']);
+});
+
+//  User
+Route::prefix('users')->group(function () {
+    Route::get('', [UserController::class, 'index']);
+    Route::get('/{id}', [UserController::class, 'show']);
+    Route::post('', [UserController::class, 'store']);
+    Route::put('', [UserController::class, 'update']);
+    Route::delete('/{id}', [UserController::class, 'destroy']);
 });

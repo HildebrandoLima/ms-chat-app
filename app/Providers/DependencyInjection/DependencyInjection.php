@@ -19,7 +19,8 @@ abstract class DependencyInjection
     public static function providers(Application $app): Collection
     {
         return collect([
-            new MessageDi($app)
+            new MessageDi($app),
+            new UserDi($app),
         ]);
     }
 
