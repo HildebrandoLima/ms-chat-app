@@ -30,14 +30,14 @@ class Controller extends BaseController
         ], Response::HTTP_OK);        
     }
 
-    public function put(bool $success): Response
+    public function put(Collection|bool $success): Response
     {
         return response()->json([
-            "message" => "Edição efetuada com sucesso.",
-            "data" => $success,
+            "message" => !is_bool($success) ? "Mensagem alterada com sucesso." : "Edição efetuada com sucesso.",
+            "data" => !is_bool($success) ? $success[0] : $success,
             "status" => Response::HTTP_OK,
             "details" => "",
-        ], Response::HTTP_OK);
+        ], Response::HTTP_OK); 
     }
 
     public function delete(): Response

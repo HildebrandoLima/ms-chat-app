@@ -72,10 +72,19 @@ class ChatController extends Controller
     public function update(UpdateMessageRequest $request): Response
     {
         $success = $this->updateMessageService->updateById($request);
-        if (!$success) {
-            return $this->responseError('Error ao alterar mensagem.');
+
+        if (is_bool($success)) {
+            if (!$success) {
+                return $this->responseError('Error ao alterar operação.');
+            }
+            return Controller::put($success);
+
+        } else {
+            if ($success->isEmpty()) {
+                return $this->getIsNotEmpty();
+            }
+            return Controller::put($success);
         }
-        return Controller::post($success);
     }
 
     public function destroy(int $id): Response

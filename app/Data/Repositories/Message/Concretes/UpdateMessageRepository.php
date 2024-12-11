@@ -7,11 +7,12 @@ use App\Http\Requests\Message\UpdateMessageRequest;
 use App\Models\Message;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Collection;
 use Exception;
 
 class UpdateMessageRepository implements IUpdateMessageRepository
 {
-    public function updateById(UpdateMessageRequest $request): bool
+    public function updateById(UpdateMessageRequest $request): Collection
     {
         try {
             DB::beginTransaction();
@@ -20,11 +21,12 @@ class UpdateMessageRepository implements IUpdateMessageRepository
                 'text' => $request->text,
             ]);
             DB::commit();
-            return true;
+            $message = Message::where('id', $request->id)->first();
+            return collect([$message]);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('Erro ao realizar edição da mensagem:', ['exception' => $e->getMessage()]);
-			return false;
+			return collect([]);
         }
     }
 }
