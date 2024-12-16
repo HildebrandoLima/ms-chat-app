@@ -35,68 +35,14 @@ Exploro o ecossistema do Framework Laravel, utilizando funcionalidades como WebS
 
 Este diagrama representa o relacionamento entre `User`, `Message` e `Friend`.
 
-```mermaid
-erDiagram
-    USER {
-        string id
-        string name
-        array friends
-        string timestamp
-    }
-    MESSAGE {
-        int id
-        int from
-        int to
-        string text
-        string status
-        string timestamp
-    }
-    FRIENDSHIP {
-        int user_id
-        int friend_id
-        string timestamp
-    }
 
-    USER ||--o{ MESSAGE : sends
-    USER ||--o{ FRIENDSHIP : is_friend_with
-    USER ||--o{ USER : has_friend
 
 ### BANCO DE DADOS
 
 # Diagrama Lógico do Banco de Dados
 
-Este diagrama representa a estrutura lógica do banco de dados com as tabelas de usuários, mensagens e amizades.
+Este diagrama representa a estrutura lógica do banco de dados com as tabelas de `users`, `messages` e `friends`.
 
-```mermaid
-erDiagram
-    USERS {
-        INT id PK
-        VARCHAR name
-        VARCHAR email
-        VARCHAR password
-        TIMESTAMP created_at
-        TIMESTAMP updated_at
-    }
-    MESSAGES {
-        INT id PK
-        INT from
-        INT to
-        TEXT text
-        TEXT status
-        TIMESTAMP created_at
-        TIMESTAMP updated_at
-    }
-    FRIENDSHIPS {
-        INT user_id FK
-        INT friend_id FK
-        TIMESTAMP created_at
-        TIMESTAMP updated_at
-        PRIMARY KEY (user_id, friend_id)
-    }
-
-    USERS ||--o{ MESSAGES : sends
-    USERS ||--o{ FRIENDSHIPS : is_friend_with
-    USERS ||--o{ USERS : has_friend
 
 
 ## PASSOS:
@@ -117,14 +63,14 @@ erDiagram
 
 ### Executar o projeto:
 <ul>
-    <li>Clone o projeto: git clone https://github.com/HildebrandoLima/upd8_back_end.git</li>
+    <li>Clone o projeto: `git clone https://github.com/HildebrandoLima/upd8_back_end.git`</li>
     <li>Adicione o arquivo .env copiando o arquivo .env.example</li>
-    <li>Execute o comando: composer install</li>
+    <li>Execute o comando: `composer install`</li>
     <li>Certifique-se que um diretório chamado `**/vendor**` foi criado.</li>
-    <li>Execute o comando: php artisan install:broadcasting.</li>
-    <li>Publique com o comando: php artisan install:broadcasting</li>
-    <li>Execute o comando: php artisan websockets:serve</li>
-    <li>Execute o comando: php artisan serve --host=127.0.0.1 --port=6001</li>
+    <li>Execute o comando: `php artisan install:broadcasting`</li>
+    <li>Publique com o comando: `php artisan install:broadcasting`</li>
+    <li>Execute o comando: `php artisan websockets:serve`</li>
+    <li>Execute o comando: `php artisan serve --host=127.0.0.1 --port=6001`</li>
 </ul>
 
 ### Banco de Dados:
