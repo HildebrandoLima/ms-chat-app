@@ -31,17 +31,9 @@ Exploro o ecossistema do Framework Laravel, utilizando funcionalidades como WebS
 
 ### DIAGRAMA
 
-# Diagrama de Entidades
+# Diagrama de Entidades e Banco de Dados
 
-Este diagrama representa o relacionamento entre `User`, `Message` e `Friend`.
-
-![ILUSTRAÇÃO](image-1.png)
-
-### BANCO DE DADOS
-
-# Diagrama Lógico do Banco de Dados
-
-Este diagrama representa a estrutura lógica do banco de dados com as tabelas de `users`, `messages` e `friends`.
+Representa o relacionamento entre `User`, `Message` e `Friend`.
 
 ![ILUSTRAÇÃO](image-1.png)
 
