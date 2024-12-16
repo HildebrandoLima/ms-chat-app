@@ -8,9 +8,12 @@ use Tests\TestCase;
 
 class ListAllMessageTest extends TestCase
 {
+    private User $user;
+
     protected function setUp(): void
     {
         parent::setUp();
+        $this->user = User::factory()->createOne();
     }
 
     /**
@@ -21,7 +24,7 @@ class ListAllMessageTest extends TestCase
     {
         // Arrange
         $data = [
-            'to' => User::factory()->createOne()->id
+            'to' => $this->user->id
         ];
 
         // Act

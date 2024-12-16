@@ -8,9 +8,12 @@ use Tests\TestCase;
 
 class DeleteMessageByIdTest extends TestCase
 {
+    private Message $message;
+
     protected function setUp(): void
     {
         parent::setUp();
+        $this->message = Message::factory()->createOne();
     }
 
     /**
@@ -20,9 +23,8 @@ class DeleteMessageByIdTest extends TestCase
     public function it_endpoint_delete_base_response_200(): void
     {
         // Arrange
-        $message = Message::factory()->createOne()->toArray();
         $data = [
-            'id' => $message['id'],
+            'id' => $this->message->id,
         ];
 
         // Act

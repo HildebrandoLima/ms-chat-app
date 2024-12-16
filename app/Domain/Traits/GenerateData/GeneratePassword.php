@@ -14,16 +14,16 @@ trait GeneratePassword
 
     public function generatePassword(): string
     {
-        $this->lyrics();
+        $this->generateLyrics();
         $this->lyricsCase();
-        $this->digit();
-        $this->specialChars();
+        $this->generateDigit();
+        $this->generateSpecialChars();
 
         $password = $this->upperCase . $this->digit . $this->specialChar . $this->lowerCase;
         return str_shuffle($password);
     }
 
-    private function lyrics(): void
+    private function generateLyrics(): void
     {
         $this->lyrics = Str::random(6);
     }
@@ -37,12 +37,12 @@ trait GeneratePassword
         $this->lowerCase = strtolower($part2);
     }
 
-    private function digit(): void
+    private function generateDigit(): void
     {
         $this->digit = rand(0, 100);
     }
 
-    private function specialChars(): void
+    private function generateSpecialChars(): void
     {
         $specialChars = ['$','*','&','@','#'];
         $this->specialChar = $specialChars[array_rand($specialChars)];

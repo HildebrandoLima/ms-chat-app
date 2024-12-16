@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 trait GenerateEmail
 {
     private string $lyrics = "";
-    private array $dominio = [];
+    private string  $dominio = "";
 
     public function generateEmail(): string
     {

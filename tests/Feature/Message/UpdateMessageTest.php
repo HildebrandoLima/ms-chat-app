@@ -8,12 +8,12 @@ use Tests\TestCase;
 
 class UpdateMessageTest extends TestCase
 {
-    private array $message = [];
+    private Message $message;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->message = Message::factory()->createOne()->toArray();
+        $this->message = Message::factory()->createOne();
     }
 
     /**
@@ -24,8 +24,8 @@ class UpdateMessageTest extends TestCase
     {
         // Arrange
         $data = [
-            'id' => $this->message['id'],
-            'text' => $this->message['text'],
+            'id' => $this->message->id,
+            'text' => $this->message->text,
         ];
 
         // Act
@@ -45,7 +45,7 @@ class UpdateMessageTest extends TestCase
     {
         // Arrange
         $data = [
-            'client_id' =>  $this->message['id'],
+            'client_id' =>  $this->message->id,
             'text' => null,
         ];
 

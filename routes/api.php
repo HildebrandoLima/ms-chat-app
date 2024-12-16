@@ -32,9 +32,9 @@ Route::prefix('messages')->group(function () {
 
 //  User
 Route::prefix('users')->group(function () {
-    Route::get('', [UserController::class, 'index'])->name('users.index');
-    Route::get('/{id}', [UserController::class, 'show'])->name('users.show');
-    Route::post('', [UserController::class, 'store'])->name('users.store');
-    Route::put('', [UserController::class, 'update'])->name('users.update');
-    Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('', [UserController::class, 'index'])->name('user.index');
+    Route::get('/{id}', [UserController::class, 'show'])->name('user.show');
+    Route::post('', [UserController::class, 'store'])->name('user.store');
+    Route::put('', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 });
