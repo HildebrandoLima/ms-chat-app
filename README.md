@@ -35,7 +35,7 @@ Exploro o ecossistema do Framework Laravel, utilizando funcionalidades como WebS
 
 Este diagrama representa o relacionamento entre `User`, `Message` e `Friend`.
 
-
+![ILUSTRAÇÃO](image-1.png)
 
 ### BANCO DE DADOS
 
@@ -43,7 +43,7 @@ Este diagrama representa o relacionamento entre `User`, `Message` e `Friend`.
 
 Este diagrama representa a estrutura lógica do banco de dados com as tabelas de `users`, `messages` e `friends`.
 
-
+![ILUSTRAÇÃO](image-1.png)
 
 ## PASSOS:
 
@@ -87,12 +87,6 @@ Este diagrama representa a estrutura lógica do banco de dados com as tabelas de
 > DB_DATABASE=db_name_dev<br />
 > DB_USERNAME=nome_do_usuario<br />
 > DB_PASSWORD=sua_senha<br />
-
-<br /><br />
-
-> CACHE_STORE=database<br />
-> CACHE_PREFIX=<br />
-> CACHE_DRIVER=file<br />
 
 Execute o comando para criar as tabelas:
 
