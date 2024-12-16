@@ -1,66 +1,220 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## CHAT
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+API consta com dois CURDS de entidades: Messagem e Usuário. No projeto de back-end, abordo uma arquitetura hexagonal, dividada em camadas como: Services, Repositories, Http e Support.
 
-## About Laravel
+No projeto abordo diversos temas com foco em Programação Orientada a Objetos (POO), Data Transfers Objects (DTOs).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Exploro o ecossistema do Framework Laravel, utilizando funcionalidades como WebSocket, Migrations, Eloquent, Relationships, Factories, Seeders e Providers. Abaixo segue mais detalhes.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### [Crie sua massa de testes para pessoa, CPF, nome e afins, clicando aqui!](https://www.4devs.com.br/)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Aplicação Web desenvolvida com:<br />
+- Laravel 10x/PHP 8.0x<br />
+- Banco de dados MySQL 8.0<br/>
 
-## Learning Laravel
+### Funcionalidades (Atualmente desenvolvidas)
+<ul>
+    <li>WebSocket</li>
+    <li>CRUD de Menssagem</li>
+    <li>CRUD de Usuário</li>
+</ul>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Funcionalidades (a desenvolver)
+<ul>
+    <li>Autenticação JWT</li>
+    <li>Autenticação de 2 Fatores</li>
+</ul>
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### UML
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+![UML](image.png)
 
-## Laravel Sponsors
+### DIAGRAMA
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# Diagrama de Entidades
 
-### Premium Partners
+Este diagrama representa o relacionamento entre `User`, `Message` e `Friend`.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```mermaid
+erDiagram
+    USER {
+        string id
+        string name
+        array friends
+        string timestamp
+    }
+    MESSAGE {
+        int id
+        int from
+        int to
+        string text
+        string status
+        string timestamp
+    }
+    FRIENDSHIP {
+        int user_id
+        int friend_id
+        string timestamp
+    }
 
-## Contributing
+    USER ||--o{ MESSAGE : sends
+    USER ||--o{ FRIENDSHIP : is_friend_with
+    USER ||--o{ USER : has_friend
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### BANCO DE DADOS
 
-## Code of Conduct
+# Diagrama Lógico do Banco de Dados
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Este diagrama representa a estrutura lógica do banco de dados com as tabelas de usuários, mensagens e amizades.
 
-## Security Vulnerabilities
+```mermaid
+erDiagram
+    USERS {
+        INT id PK
+        VARCHAR name
+        VARCHAR email
+        VARCHAR password
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+    MESSAGES {
+        INT id PK
+        INT from
+        INT to
+        TEXT text
+        TEXT status
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+    }
+    FRIENDSHIPS {
+        INT user_id FK
+        INT friend_id FK
+        TIMESTAMP created_at
+        TIMESTAMP updated_at
+        PRIMARY KEY (user_id, friend_id)
+    }
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    USERS ||--o{ MESSAGES : sends
+    USERS ||--o{ FRIENDSHIPS : is_friend_with
+    USERS ||--o{ USERS : has_friend
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## PASSOS:
+
+<details>
+<summary>Detalhes</summary>
+
+### Requesitos necessários para executar o projeto:
+<ul>
+    <li>Instalar o PHP versão 8.0</li>
+    <li>Instalar o Laravel versão 10.0</li>
+    <li>Instalar o MySQL 8.0</li>
+    <li>Instalar o composer</li>
+    <li>Instalar o Postman ou Insomnia</li>
+    <li>Instalar uma IDE de sua escolha (PHPStorm / VSCode)</li>
+    <li>Instalar um cliente SQL de sua escolha (DBeaver / PHPMyAdmin / MySQL WorkBench)</li>
+</ul>
+
+### Executar o projeto:
+<ul>
+    <li>Clone o projeto: git clone https://github.com/HildebrandoLima/upd8_back_end.git</li>
+    <li>Adicione o arquivo .env copiando o arquivo .env.example</li>
+    <li>Execute o comando: composer install</li>
+    <li>Certifique-se que um diretório chamado `**/vendor**` foi criado.</li>
+    <li>Execute o comando: php artisan install:broadcasting.</li>
+    <li>Publique com o comando: php artisan install:broadcasting</li>
+    <li>Execute o comando: php artisan websockets:serve</li>
+    <li>Execute o comando: php artisan serve --host=127.0.0.1 --port=6001</li>
+</ul>
+
+### Banco de Dados:
+
+> Obanco de dados é do tipo relacional.
+
+### Criando o Banco de de Dados:
+
+> No seu .env adicione da seguinte forma:<br />
+
+> DB_CONNECTION=mysql<br />
+> DB_HOST=localhost<br />
+> DB_PORT=3306<br />
+> DB_DATABASE=db_name_dev<br />
+> DB_USERNAME=nome_do_usuario<br />
+> DB_PASSWORD=sua_senha<br />
+
+<br /><br />
+
+> CACHE_STORE=database<br />
+> CACHE_PREFIX=<br />
+> CACHE_DRIVER=file<br />
+
+Execute o comando para criar as tabelas:
+
+```
+    php artisan migrate
+```
+
+Execute o comando para preencher as tabelas:
+
+```
+    php artisan db:seed --class=DatabaseSeeder
+```
+
+Certifique-se que as tabelas foram criadas. Abra seu cliente SQL que você escolheu, e então execute o comando:
+
+```
+    SHOW TABLES;
+```
+
+### [Caso ocorra erro ao executar as migrations, clique aqui!](https://blog.renatolucena.net/post/como-fazer-rollback-de-migration-de-bd-no-laravel)
+
+### Para iniciar o servidor:
+`php artisan serve --host=127.0.0.1 --port=6001`
+Agora acesse o endereço http://localhost:8000/api/rota em seu Postman ou Insomnia
+</details>
+
+### [API - Swagger](https://app.swaggerhub.com/apis-docs/HildebrandoLima/Chat-WebSocket/1.0.0)
+
+## TESTES
+
+Caso queira executar todos os testes, use o comando:
+
+```
+    php artisan test
+```
+
+Caso queira executar apenas os testes de integração, use o comando:
+
+```
+    php artisan test tests/Feature
+```
+
+Caso queira executar apenas os testes de unidade, para a camada de service, use o comando:
+
+```
+    php artisan test tests/Unit/Services
+```
+
+Caso queira executar apenas os testes de unidade, para a camada de repository, use o comando:
+
+```
+    php artisan test tests/Unit/Repositories
+```
+
+Caso queira executar apenas os testes de unidade, para ambas as camadas, use o comando:
+
+```
+    php artisan test tests/Unit
+```
+
+Caso queira executar apenas um teste em específico, use o comando:
+
+```
+    php artisan test --filter=ClassTest
+```
+
+Caso queira executar os grupos de testes específicos, use o comando:
+
+```
+    php artisan test ---group=NameGroup
+```
