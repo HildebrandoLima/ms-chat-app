@@ -23,18 +23,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //  Messages
 Route::prefix('messages')->group(function () {
-    Route::get('', [ChatController::class, 'index']);
-    Route::get('/{id}', [ChatController::class, 'show']);
-    Route::post('', [ChatController::class, 'store']);
-    Route::put('', [ChatController::class, 'update']);
-    Route::delete('/{id}', [ChatController::class, 'destroy']);
+    Route::get('', [ChatController::class, 'index'])->name('message.index');
+    Route::get('/{id}', [ChatController::class, 'show'])->name('message.show');
+    Route::post('', [ChatController::class, 'store'])->name('message.store');
+    Route::put('', [ChatController::class, 'update'])->name('message.update');
+    Route::delete('/{id}', [ChatController::class, 'destroy'])->name('message.destroy');
 });
 
 //  User
 Route::prefix('users')->group(function () {
-    Route::get('', [UserController::class, 'index']);
-    Route::get('/{id}', [UserController::class, 'show']);
-    Route::post('', [UserController::class, 'store']);
-    Route::put('', [UserController::class, 'update']);
-    Route::delete('/{id}', [UserController::class, 'destroy']);
+    Route::get('', [UserController::class, 'index'])->name('users.index');
+    Route::get('/{id}', [UserController::class, 'show'])->name('users.show');
+    Route::post('', [UserController::class, 'store'])->name('users.store');
+    Route::put('', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 });
